@@ -14,5 +14,4 @@ public class EchoServerTest {
         echoServer.start(port);
         Assert.assertTrue(mockServerSocketManager.wasConnectCalled());
     }
-
 }
