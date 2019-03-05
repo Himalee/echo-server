@@ -9,5 +9,6 @@ public class EchoServer {
 
     public void start(int port) throws IOException {
         serverSocketManager.connect(port);
+        serverSocketManager.receiveString();
     }
 }

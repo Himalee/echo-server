@@ -1,10 +1,19 @@
 import java.io.*;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class ServerSocketManager implements SocketManager {
 
+    private Socket socket;
+
     public void connect(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
-        serverSocket.accept();
+        socket = serverSocket.accept();
+    }
+
+    public String receiveString() throws IOException {
+        Scanner serverInput = new Scanner(socket.getInputStream());
+        return serverInput.nextLine();
     }
 }
