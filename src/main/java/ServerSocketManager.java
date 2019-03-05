@@ -16,4 +16,9 @@ public class ServerSocketManager implements SocketManager {
         Scanner serverInput = new Scanner(socket.getInputStream());
         return serverInput.nextLine();
     }
+
+    public void present(String message) throws IOException {
+        PrintWriter serverOutput = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+        serverOutput.println(message);
+    }
 }
