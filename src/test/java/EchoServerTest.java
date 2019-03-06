@@ -9,14 +9,16 @@ import static org.hamcrest.CoreMatchers.containsString;
 public class EchoServerTest {
 
     private int port = 1234;
-    private String clientInput;
+    private ByteArrayInputStream input;
     private MockServerSocketManager mockServerSocketManager;
     private ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private String clientInput;
 
    @Before
    public void setUp() throws IOException {
-       clientInput = "echo";
-       mockServerSocketManager = new MockServerSocketManager(clientInput, output);
+       clientInput = "echo\nhello\nworld\nq\n";
+       input = new ByteArrayInputStream(clientInput.getBytes());
+       mockServerSocketManager = new MockServerSocketManager(input, output);
        EchoServer echoServer = new EchoServer(mockServerSocketManager);
        echoServer.start(port);
    }
@@ -27,11 +29,6 @@ public class EchoServerTest {
     }
 
     @Test
-    public void startEchoServer_sendClientMessageToServer() {
-        Assert.assertEquals(clientInput, mockServerSocketManager.receiveString());
-    }
-
-    @Test
     public void startEchoServer_confirmClientMessageWasReceived() {
         Assert.assertThat(output.toString(), containsString("Message received"));
     }
@@ -39,5 +36,10 @@ public class EchoServerTest {
     @Test
     public void startEchoServer_echoClientMessage() {
         Assert.assertThat(output.toString(), containsString("echo"));
+    }
+
+    @Test
+    public void startEchoServer_clientAbleToSendMultipleMessages() {
+        Assert.assertThat(output.toString(), containsString("Goodbye"));
     }
 }
