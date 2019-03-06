@@ -35,4 +35,9 @@ public class EchoServerTest {
     public void startEchoServer_confirmClientMessageWasReceived() {
         Assert.assertThat(output.toString(), containsString("Message received"));
     }
+
+    @Test
+    public void startEchoServer_echoClientMessage() {
+        Assert.assertThat(output.toString(), containsString("echo"));
+    }
 }
