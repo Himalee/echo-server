@@ -10,6 +10,11 @@ public class EchoServer {
 
     public void start(int port) throws IOException {
         serverSocketManager.connect(port);
+        serverSocketManager.present(Message.menu());
+        acceptAndShowMessageUntilServerShutsDown();
+    }
+
+    public void acceptAndShowMessageUntilServerShutsDown() throws IOException {
         String clientInput = serverSocketManager.receiveString();
         while(!clientInput.equals(COMMAND_TO_QUIT)) {
             serverSocketManager.present(Message.confirmClientMessageReceived());
