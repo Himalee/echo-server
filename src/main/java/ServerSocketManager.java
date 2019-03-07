@@ -1,11 +1,15 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ServerSocketManager implements SocketManager {
 
     private Socket socket;
+    private CommandLineInterface cli;
+
+    public ServerSocketManager(CommandLineInterface cli) {
+        this.cli = cli;
+    }
 
     public void connect(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
@@ -13,12 +17,10 @@ public class ServerSocketManager implements SocketManager {
     }
 
     public String receiveString() throws IOException {
-        Scanner serverInput = new Scanner(socket.getInputStream());
-        return serverInput.nextLine();
+         return cli.getInput(socket.getInputStream());
     }
 
     public void present(String message) throws IOException {
-        PrintWriter serverOutput = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-        serverOutput.println(message);
+        cli.getOutput(socket.getOutputStream(), message);
     }
 }
