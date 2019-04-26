@@ -1,29 +1,31 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Before;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+
+import java.io.*;
 
 public class CommandLineInterfaceTest {
 
     private CommandLineInterface cli;
+    private ByteArrayOutputStream outContent;
 
     @Before
     public void setUp() {
-        cli = new CommandLineInterface();
+        InputStream input = new ByteArrayInputStream("FooBar".getBytes());
+        outContent = new ByteArrayOutputStream();
+        OutputStream output = new PrintStream(outContent);
+        cli = new CommandLineInterface(input, output);
     }
 
     @Test
     public void getUserInput_fooBar() {
-        Assert.assertEquals("FooBar", cli.getInput(new ByteArrayInputStream("FooBar".getBytes())));
+        Assert.assertEquals("FooBar", cli.getInput());
     }
 
     @Test
     public void display_helloWorld() {
         String message = "Hello, World";
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        cli.getOutput(new PrintStream(outContent), message);
+        cli.presentOutput(message);
 
         Assert.assertEquals("Hello, World\n", outContent.toString());
     }
