@@ -1,15 +1,17 @@
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class MockServerSocketManager implements SocketManager {
 
     private boolean connectCalled = false;
-    private String input;
-    ByteArrayOutputStream output;
+    private ByteArrayOutputStream output;
+    private Scanner userInput;
 
-    public MockServerSocketManager(String input, ByteArrayOutputStream output) {
-        this.input = input;
+    public MockServerSocketManager(ByteArrayInputStream input, ByteArrayOutputStream output) {
         this.output = output;
+        userInput = new Scanner(input);
     }
 
     public void connect(int port) {
@@ -20,8 +22,8 @@ public class MockServerSocketManager implements SocketManager {
         return connectCalled;
     }
 
-    public String receiveString() {
-        return input;
+    public String receiveInput() {
+        return userInput.nextLine();
     }
 
     public void present(String message) {

@@ -1,24 +1,26 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ServerSocketManager implements SocketManager {
 
-    private Socket socket;
+    private CommandLineInterface communicationChannel;
 
     public void connect(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
-        socket = serverSocket.accept();
+        Socket socket = serverSocket.accept();
+        communicationChannel = cli(socket.getInputStream(), socket.getOutputStream());
     }
 
-    public String receiveString() throws IOException {
-        Scanner serverInput = new Scanner(socket.getInputStream());
-        return serverInput.nextLine();
+    public String receiveInput() {
+         return communicationChannel.getInput();
     }
 
-    public void present(String message) throws IOException {
-        PrintWriter serverOutput = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-        serverOutput.println(message);
+    public void present(String message) {
+        communicationChannel.presentOutput(message);
+    }
+
+    private CommandLineInterface cli(InputStream input, OutputStream output) {
+        return new CommandLineInterface(input, output);
     }
 }
