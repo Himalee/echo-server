@@ -22,7 +22,7 @@ public class MockServerSocketManager implements SocketManager {
         return connectCalled;
     }
 
-    public String receiveString() {
+    public String receiveInput() {
         return userInput.nextLine();
     }
 

@@ -11,15 +11,15 @@ public class EchoServer {
     public void start(int port) throws IOException {
         serverSocketManager.connect(port);
         serverSocketManager.present(Message.menu());
-        acceptAndShowMessageUntilServerShutsDown();
+        acceptAndEchoMessageUntilServerShutsDown();
     }
 
-    public void acceptAndShowMessageUntilServerShutsDown() throws IOException {
-        String clientInput = serverSocketManager.receiveString();
+    private void acceptAndEchoMessageUntilServerShutsDown() throws IOException {
+        String clientInput = serverSocketManager.receiveInput();
         while(!clientInput.equals(COMMAND_TO_QUIT)) {
             serverSocketManager.present(Message.confirmClientMessageReceived());
             serverSocketManager.present(clientInput);
-            clientInput = serverSocketManager.receiveString();
+            clientInput = serverSocketManager.receiveInput();
         }
         serverSocketManager.present(Message.serverShutsDown());
     }
