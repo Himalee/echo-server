@@ -17,7 +17,7 @@ public class CommandLineInterface {
     }
 
     public void presentOutput(String message) {
-        PrintWriter serverOutput = new PrintWriter(new OutputStreamWriter(output), true);
+        PrintWriter serverOutput = new PrintWriter(output, true);
         serverOutput.println(message);
     }
 }
